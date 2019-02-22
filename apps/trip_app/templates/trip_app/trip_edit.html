@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit a trip</title>
+    <!-- Bootstrap core CSS -->
+    {%load static%}
+    <link href="{% static 'login_app/css/bootstrap.min.css'%}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link href="{% static 'login_app/css/blog.css'%}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script type="text/javascript">
+        $(function () {
+            var t = new Date();
+            t.setTime({{ this_trip.start_date }});
+            document.getElementById("StartDate"t).value = t.format("yyyy-MM-dd");
+        });
+    </script> -->
+    
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        {%if "current_user" in request.session%}
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <!-- My template!! -->
+                <div class="col-4 pt-1">
+                    <p class="text-left">
+                        Welcome:&nbsp{{request.session.first_name}}&nbsp{{request.session.last_name}}!&nbsp;Let's edit your trip!
+                    </p>
+                </div>
+                <div class="col-4 pt-1">
+                    <p class="blog-header-logo text-dark">
+                        <!-- Success.Welcome.{{request.session.first_name}}&nbsp{{request.session.last_name}} </p> -->
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <a class="btn btn-sm btn-outline-secondary" href="/logout">Log out</a>
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-5 ">
+                <!-- <h2 class="lead mt-5">Add a Favorite Book!</h2> -->
+                <form action="/trip/process/edit_a_trip" method="POST">
+                    {% csrf_token %}
+                    <fieldset>
+                        <input type="hidden" name="trip_id" value=>
+                        <label for="destination ">Destination</label>
+                        <input type="text" class="form-control" id="dextination" name="destination" placeholder={{this_trip.destination}}
+                            value="" required>
+                            
+                        <div class="text-danger">
+                            {% if messages %}
+                            <ul> {% for message in messages %}
+                                {% if 'destination' in message.extra_tags %}
+                                <li>
+                                    <p class="text-danger small">{{message}}</p>
+                                </li>
+                                {% endif %}
+                                {% endfor %}</ul>
+                            {% endif %}
+                        </div>
+
+                        <label for="start_date ">Start Date</label>
+                        <input type="date" class="form-control" name="start_date" placeholder={{this_trip.start_date|date:"m/d/Y"}} id ={{this_trip.start_date}} value="" required>
+                        <!-- {{this_trip.start_date|date:"m/d/Y"}} -->
+                        <div class="text-danger md-3">
+                            {% if messages %}
+                            <ul> {% for message in messages %}
+                                {% if 'start_date' in message.extra_tags %}
+                                <li>
+                                    <p class="text-danger small">{{message}}</p>
+                                </li>
+                                {% endif %}
+                                {% endfor %}</ul>
+                            {% endif %} 
+                        </div>
+                        <label for="end_date ">End Date</label>
+                        <input type="date" class="form-control" name="end_date" placeholder="" value="" required>
+                        <div class="text-danger md-3">
+                            {% if messages %}
+                            <ul> {% for message in messages %}
+                                {% if 'end_date' in message.extra_tags %}
+                                <li>
+                                    <p class="text-danger small">{{message}}</p>
+                                </li>
+                                {% endif %}
+                                {% endfor %}</ul>
+                            {% endif %}
+                        </div>
+                        <label for="plan ">Plan</label>
+                        <textarea class="form-control" name="plan" placeholder={{this_trip.plan}} value={{this_trip.plan}} cols="100" 
+                            rows="5"></textarea>
+                        <div class="text-danger md-3">
+                            {% if messages %}
+                            <ul> {% for message in messages %}
+                                {% if 'plan' in message.extra_tags %}
+                                <li>
+                                    <p class="text-danger small">{{message}}</p>
+                                </li>
+                                {% endif %}
+                                {% endfor %}</ul>
+                            {% endif %}
+                        </div>
+
+                        <p class="text-right">
+                            <a class="btn btn-primary btn-lg  my-3" href="/dashboard">Cancel</a>
+                            <button class="btn btn-primary btn-lg  my-3 " type="submit">Submit</button></p>
+                        <!-- <div class="pull-right"><button class="btn btn-primary btn-lg  my-3 " type="submit">Add</button></div> -->
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        {%else%}
+        <header class="blog-heade.first_namer py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <!-- My template!! -->
+                <div class="col-1 pt-1">
+                    <p class="text-left"></p>
+                </div>
+                <div class="col-6 pt-1">
+                    <p class="blog-header-logo text-dark text-center">
+                        Warning </p>
+                    <!-- Success.Welcome.{{request.session.first_name}}&nbsp{{request.session.last_name}} </p> -->
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    <!-- <a class="btn btn-sm btn-outline-secondary" href="/">Go back</a> -->
+                </div>
+            </div>
+        </header>
+        <h1 class="blog-header-logo text-warning">You are not logged in yet and cannot access this page.Please return to
+            login
+        </h1>
+        <a class="btn btn-sm btn-outline-secondary" href="/">Go back</a>
+        {%endif%}
+    </div>
+    <!--end container -->
+
+</body>
+
+</html>
